@@ -15,7 +15,10 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Order {
+@Table(name = "orders", indexes = {
+    @Index(name = "idx_orders_id_unq", columnList = "id", unique = true)
+})
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +34,7 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Order order = (Order) o;
+        Orders order = (Orders) o;
         return getId() != null && Objects.equals(getId(), order.getId());
     }
 

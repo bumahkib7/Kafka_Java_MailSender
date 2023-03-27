@@ -1,6 +1,6 @@
-package com.bbmk.kafka.kafkaemail.kafka;
+package com.bbmk.kafka.kafkaemail.kafka.consumer;
 
-import com.bbmk.kafka.kafkaemail.models.Order;
+import com.bbmk.kafka.kafkaemail.models.Orders;
 import com.bbmk.kafka.kafkaemail.models.User;
 import com.bbmk.kafka.kafkaemail.request.EmailRequest;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,7 +16,7 @@ public class KafkaConsumerService {
     }
 
     @KafkaListener(topics = "order_topic", groupId = "my-group-id", containerFactory = "orderKafkaListenerContainerFactory")
-    public void consumeOrder(Order order) {
+    public void consumeOrder(Orders order) {
         // Process the consumed Order object
         System.out.println("Consumed Order: " + order);
     }

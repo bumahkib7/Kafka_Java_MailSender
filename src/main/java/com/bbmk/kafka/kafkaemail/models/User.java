@@ -12,10 +12,12 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Table(name = "users", indexes = {
+    @Index(name = "idx_user_id_unq", columnList = "id", unique = true)
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
 
     private String name;
@@ -23,7 +25,12 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
-    private List<Order> orders;
+    private List<Orders> orders;
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 
     @Override
     public boolean equals(Object o) {
