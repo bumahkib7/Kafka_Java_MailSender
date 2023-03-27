@@ -1,6 +1,6 @@
 package com.bbmk.kafka.kafkaemail.config;
 
-import com.bbmk.kafka.kafkaemail.models.Order;
+import com.bbmk.kafka.kafkaemail.models.Orders;
 import com.bbmk.kafka.kafkaemail.models.User;
 import com.bbmk.kafka.kafkaemail.request.EmailRequest;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -42,7 +42,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ProducerFactory<String, Order> orderProducerFactory() {
+    public ProducerFactory<String, Orders> orderProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -51,7 +51,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Order> orderKafkaTemplate() {
+    public KafkaTemplate<String, Orders> orderKafkaTemplate() {
         return new KafkaTemplate<>(orderProducerFactory());
     }
 
@@ -75,13 +75,13 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, Order> orderConsumerFactory() {
+    public ConsumerFactory<String, Orders> orderConsumerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "my-group-id");
         configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        configProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, Order.class);
+        configProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, Orders.class);
         return new DefaultKafkaConsumerFactory<>(configProps);
     }
 
@@ -119,8 +119,8 @@ public class KafkaConfig {
 
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Order> orderKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Order> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, Orders> orderKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Orders> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(orderConsumerFactory());
         return factory;
     }

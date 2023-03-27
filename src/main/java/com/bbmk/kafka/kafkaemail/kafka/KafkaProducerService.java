@@ -1,9 +1,8 @@
 package com.bbmk.kafka.kafkaemail.kafka;
 
-import com.bbmk.kafka.kafkaemail.models.Order;
+import com.bbmk.kafka.kafkaemail.models.Orders;
 import com.bbmk.kafka.kafkaemail.models.User;
 import com.bbmk.kafka.kafkaemail.request.EmailRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +11,12 @@ public class KafkaProducerService {
 
     private final KafkaTemplate<String, User> userKafkaTemplate;
 
-    private final KafkaTemplate<String, Order> orderKafkaTemplate;
+    private final KafkaTemplate<String, Orders> orderKafkaTemplate;
 
     private final KafkaTemplate<String, EmailRequest> emailKafkaTemplate;
 
-    public KafkaProducerService(KafkaTemplate<String, User> userKafkaTemplate, KafkaTemplate<String, Order> orderKafkaTemplate, KafkaTemplate<String, EmailRequest> emailKafkaTemplate) {
+    public KafkaProducerService(KafkaTemplate<String, User> userKafkaTemplate,
+                                KafkaTemplate<String, Orders> orderKafkaTemplate, KafkaTemplate<String, EmailRequest> emailKafkaTemplate) {
         this.userKafkaTemplate = userKafkaTemplate;
         this.orderKafkaTemplate = orderKafkaTemplate;
         this.emailKafkaTemplate = emailKafkaTemplate;
@@ -26,7 +26,7 @@ public class KafkaProducerService {
         userKafkaTemplate.send(topic, user);
     }
 
-    public void sendOrder(Order order, String topic) {
+    public void sendOrder(Orders order, String topic) {
         orderKafkaTemplate.send(topic, order);
     }
 
